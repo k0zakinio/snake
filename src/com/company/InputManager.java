@@ -2,9 +2,9 @@ package com.company;
 
 public class InputManager {
 
-    boolean upPressed;
-    boolean downPressed;
-    boolean rightPressed;
-    boolean leftPressed;
+    boolean up;
+    boolean down;
+    boolean right;
+    boolean left;
 
 }

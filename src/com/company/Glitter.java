@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class Glitter extends GameObject {
 
-    public Glitter(int x, int y, ID id, InputManager im) {
-        super(x, y, id, im);
+    public Glitter(int x, int y, ID id, InputManager im, boolean isEdible) {
+        super(x, y, id, im, isEdible);
     }
 
     @Override
-    public void tick() {
+    public void tick(boolean renderPlayer) {
         checkBounds();
         moveRight();
     }

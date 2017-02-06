@@ -23,22 +23,33 @@ public class MyKeyListener implements KeyListener {
         switch(e.getKeyCode()) {
             case VK_UP: {
                 System.out.println("UP PRESSED");
-                inputManager.upPressed = true;
+                inputManager.up = true;
+                inputManager.down = false;
+                inputManager.right = false;
+                inputManager.left = false;
             }
                 break;
             case VK_DOWN: {
                 System.out.println("DOWN PRESSED");
-                inputManager.downPressed = true;
-            }
+                inputManager.down = true;
+                inputManager.right = false;
+                inputManager.left = false;
+                inputManager.up = false;            }
                 break;
             case VK_RIGHT: {
                 System.out.println("RIGHT PRESSED");
-                inputManager.rightPressed = true;
+                inputManager.right = true;
+                inputManager.down = false;
+                inputManager.left = false;
+                inputManager.up = false;
             }
                 break;
             case VK_LEFT: {
                 System.out.println("LEFT PRESSED");
-                inputManager.leftPressed = true;
+                inputManager.left = true;
+                inputManager.down = false;
+                inputManager.right = false;
+                inputManager.up = false;
             }
                 break;
         }
@@ -46,15 +57,5 @@ public class MyKeyListener implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case VK_UP: inputManager.upPressed = false;
-                break;
-            case VK_DOWN: inputManager.downPressed = false;
-                break;
-            case VK_RIGHT: inputManager.rightPressed = false;
-                break;
-            case VK_LEFT: inputManager.leftPressed = false;
-                break;
-        }
     }
 }

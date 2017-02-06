@@ -34,17 +34,17 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         InputManager inputManager = new InputManager();
         MyKeyListener myKeyListener = new MyKeyListener(inputManager);
-        Player player = new Player(150, 150, ID.Player, inputManager);
+        Player player = new Player(150, 150, ID.Player, inputManager, false);
         addKeyListener(myKeyListener);
         new Window(WIDTH, HEIGHT, "My shitty game!", this);
         handler = new Handler();
         handler.addObject(player);
-        handler.addObject(new Glitter(0, 0, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(300, 100, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(150, 200, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(40, 300, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(150, 400, ID.Glitter, inputManager));
-        handler.addObject(new Blob(150, 200, ID.Blob, inputManager));
+        handler.addObject(new Glitter(0, 0, ID.Glitter, inputManager, false));
+        handler.addObject(new Glitter(300, 100, ID.Glitter, inputManager, false));
+        handler.addObject(new Glitter(150, 200, ID.Glitter, inputManager, false));
+        handler.addObject(new Glitter(40, 300, ID.Glitter, inputManager, false));
+        handler.addObject(new Glitter(150, 400, ID.Glitter, inputManager, false));
+        handler.addObject(new Blob(150, 200, ID.Blob, inputManager, true));
     }
 
     public static void main(String[] args) {
@@ -53,18 +53,30 @@ public class Game extends Canvas implements Runnable {
 
     public void run() {
         long lastTime = System.nanoTime();
+
+        double movementTick = 3.0;
+        double ns2 = 1000000000 / movementTick;
+        double delta2 = 0;
+
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
+
         long timer = System.currentTimeMillis();
         int frames = 0;
         while(running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
+            delta2 += (now - lastTime) / ns2;
             lastTime = now;
             while(delta > 1) {
-                tick();
+                if(delta2 > 1) {
+                    tick(true);
+                    delta2--;
+                    delta--;
+                } else tick(false);
                 delta--;
+
             }
             if(running) {
                 render();
@@ -80,8 +92,8 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() {
-        handler.tick();
+    private void tick(boolean playerTick) {
+        handler.tick(playerTick);
     }
 
     private void render() {

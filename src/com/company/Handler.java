@@ -1,7 +1,9 @@
 package com.company;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.company.Game.HEIGHT;
 import static com.company.Game.WIDTH;
@@ -9,14 +11,18 @@ import static com.company.OutOfBounds.*;
 
 public class Handler {
 
-    ArrayList<GameObject> object = new ArrayList<>();
-    InputManager inputManager;
+    List<GameObject> object = new ArrayList<>();
 
-    public void tick() {
+    public void tick(boolean playerTick) {
         for(GameObject tempObject : object) {
-            tempObject.tick();
+            tempObject.tick(playerTick);
             if(tempObject.outOfBounds != NONE) wrapObject(tempObject);
         }
+        object = updateObjectIfColliding();
+    }
+
+    private java.util.List<GameObject> updateObjectIfColliding() {
+        return object.stream().filter(obj -> !obj.isColliding(object)).collect(Collectors.toList());
     }
 
     public void render(Graphics g) {
@@ -41,5 +47,4 @@ public class Handler {
         System.out.println("removed object");
         this.object.remove(object);
     }
-
 }
