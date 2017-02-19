@@ -11,23 +11,24 @@ import static com.company.OutOfBounds.*;
 
 public class Handler {
 
-    List<GameObject> object = new ArrayList<>();
+    private List<GameObject> gameObjects = new ArrayList<>();
 
-    public void tick(boolean playerTick) {
-        for(GameObject tempObject : object) {
+    void tick(boolean playerTick) {
+        for(GameObject tempObject : gameObjects) {
             tempObject.tick(playerTick);
             if(tempObject.outOfBounds != NONE) wrapObject(tempObject);
         }
-        object = updateObjectIfColliding();
+        removeCollidingObjects();
     }
 
-    private java.util.List<GameObject> updateObjectIfColliding() {
-        return object.stream().filter(obj -> !obj.isColliding(object)).collect(Collectors.toList());
+    private void removeCollidingObjects()  {
+        List<GameObject> toRemove = gameObjects.stream().filter(obj -> obj.isCollidingAndEdible(gameObjects)).collect(Collectors.toList());
+        if(toRemove.size() > 0) System.out.println("toRemove = " + toRemove);
+        gameObjects.removeAll(toRemove);
     }
 
-    public void render(Graphics g) {
-        for (int i = 0; i < object.size(); i++) {
-            GameObject tempObject = object.get(i);
+    void render(Graphics g) {
+        for (GameObject tempObject : gameObjects) {
             tempObject.render(g);
         }
     }
@@ -39,12 +40,8 @@ public class Handler {
         if(tempObject.outOfBounds == EAST) tempObject.setX(0);
     }
 
-    public void addObject(GameObject object) {
-        this.object.add(object);
+    void addObject(GameObject object) {
+        this.gameObjects.add(object);
     }
 
-    public void removeObject(GameObject object) {
-        System.out.println("removed object");
-        this.object.remove(object);
-    }
 }

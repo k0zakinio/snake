@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Glitter extends GameObject {
 
-    public Glitter(int x, int y, ID id, InputManager im, boolean isEdible) {
-        super(x, y, id, im, isEdible);
+    public Glitter(int x, int y, ID id, InputManager im) {
+        super(x, y, id, im, false, false);
     }
 
     @Override
