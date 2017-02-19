@@ -10,10 +10,6 @@ public class Game extends Canvas implements Runnable {
     public static final int WIDTH = 640, HEIGHT = 480;
 
     private Handler handler;
-    boolean upPressed;
-    boolean downPressed;
-    boolean rightPressed;
-    boolean leftPressed;
 
     public synchronized void start() {
         thread = new Thread(this);
@@ -25,7 +21,7 @@ public class Game extends Canvas implements Runnable {
         try {
             thread.join();
             running = false;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -36,19 +32,20 @@ public class Game extends Canvas implements Runnable {
         MyKeyListener myKeyListener = new MyKeyListener(inputManager);
         addKeyListener(myKeyListener);
         new Window(WIDTH, HEIGHT, "My shitty game!", this);
-        handler = new Handler();
-        handler.addObject(new Player(150, 150, ID.Player, inputManager));
-        handler.addObject(new Glitter(0, 0, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(300, 100, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(150, 200, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(40, 300, ID.Glitter, inputManager));
-        handler.addObject(new Glitter(150, 400, ID.Glitter, inputManager));
-        handler.addObject(new Blob(150, 200, ID.Blob, inputManager));
+        handler = new Handler(inputManager);
+        handler.addObject(new Player(150, 150, inputManager));
+        handler.addObject(new Glitter(0, 0, inputManager));
+        handler.addObject(new Glitter(300, 100, inputManager));
+        handler.addObject(new Glitter(150, 200, inputManager));
+        handler.addObject(new Glitter(40, 300, inputManager));
+        handler.addObject(new Glitter(150, 400, inputManager));
+        handler.addObject(new Blob(150, 200, inputManager));
     }
 
     public static void main(String[] args) {
         new Game();
     }
+
 
     public void run() {
         long lastTime = System.nanoTime();
@@ -57,32 +54,32 @@ public class Game extends Canvas implements Runnable {
         double ns2 = 1000000000 / movementTick;
         double delta2 = 0;
 
-        double amountOfTicks = 48.0;
+        double amountOfTicks = 30;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while(running) {
+        while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             delta2 += (now - lastTime) / ns2;
             lastTime = now;
-            while(delta > 1) {
-                if(delta2 > 1) {
+            while (delta > 1) {
+                if (delta2 > 1) {
                     tick(true);
                     delta2--;
                     delta--;
                 } else tick(false);
                 delta--;
-
             }
-            if(running) {
+            if (running) {
                 render();
             }
+
             frames++;
 
-            if(System.currentTimeMillis() - timer > 1000) {
+            if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 System.out.println("FPS: " + frames);
                 frames = 0;
@@ -97,7 +94,7 @@ public class Game extends Canvas implements Runnable {
 
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
-        if(bs == null) {
+        if (bs == null) {
             this.createBufferStrategy(3);
             return;
         }

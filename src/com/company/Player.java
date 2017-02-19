@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Player extends GameObject {
 
-    Player(int x, int y, ID id, InputManager im) {
-        super(x, y, id, im, false, true);
+    Player(int x, int y, InputManager im) {
+        super(x, y, im, false, true);
     }
 
     @Override

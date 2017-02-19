@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Blob extends GameObject{
 
-    public Blob(int x, int y, ID id, InputManager im) {
-        super(x,y,id, im, true, true);
+    public Blob(int x, int y, InputManager im) {
+        super(x,y, im, true, true);
     }
 
     @Override

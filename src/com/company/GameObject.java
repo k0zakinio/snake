@@ -5,17 +5,15 @@ import java.util.List;
 
 public abstract class GameObject {
 
-    protected int x, y;
-    protected ID id;
-    protected InputManager im;
-    protected OutOfBounds outOfBounds;
-    public boolean isEdible;
+    int x, y;
+    InputManager im;
+    OutOfBounds outOfBounds;
+    private boolean isEdible;
     private boolean isInteractable;
 
-    public GameObject(int x, int y, ID id, InputManager inputManager, boolean isEdible, boolean isInteractable) {
+    GameObject(int x, int y, InputManager inputManager, boolean isEdible, boolean isInteractable) {
         this.x = x;
         this.y = y;
-        this.id = id;
         this.im = inputManager;
         this.isEdible = isEdible;
         this.isInteractable = isInteractable;
@@ -25,26 +23,26 @@ public abstract class GameObject {
     public abstract void render(Graphics g);
     public abstract void checkBounds();
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         this.x = x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
 
-    public boolean isCollidingAndEdible(List<GameObject> object) {
+    boolean isCollidingAndEdible(List<GameObject> object) {
         for(GameObject obj : object) {
-            boolean notEquals = !obj.equals(this);
-            if(notEquals) {
+            boolean notThisObject = !obj.equals(this);
+            if(notThisObject) {
                 boolean sameposition = obj.x == this.x && obj.y == this.y;
                 if(sameposition && this.isEdible && this.isInteractable && obj.isInteractable) {
                     return true;
